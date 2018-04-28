@@ -13,6 +13,7 @@ app.use( bparser.urlencoded({ extended: false }) );
 // parse application/json
 app.use( bparser.json() );
 // @todo make public directory accessible..
+app.use( express.static('app/public/assets') );
 
 
 app.listen(1985, () => log('Example app listening on port 1985!'));
