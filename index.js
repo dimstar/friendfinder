@@ -3,6 +3,7 @@ const bparser = require('body-parser');
 const log = console.log;
 const TemplateRouter = require('./app/routing/htmlRoutes.js');
 const ApiRouter = require('./app/routing/apiRoutes.js');
+process.env.PORT = 1985;
 
 const app = express();
 
@@ -28,6 +29,6 @@ templaterouter = new TemplateRouter(app);
 apirouter = new ApiRouter(app);
 
 // local
-app.listen(1985, () => log('Example app listening on port 1985!'));
+// app.listen(1985, () => log('Example app listening on port 1985!'));
 // heroku
-// app.listen(process.env.PORT, () => log('Example app listening on port 1985!'));
+app.listen(process.env.PORT, () => log('Example app listening on port 1985!'));
