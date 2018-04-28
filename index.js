@@ -3,7 +3,7 @@ const bparser = require('body-parser');
 const log = console.log;
 const TemplateRouter = require('./app/routing/htmlRoutes.js');
 const ApiRouter = require('./app/routing/apiRoutes.js');
-process.env.PORT = 1985;
+// process.env.PORT = 1985;
 
 const app = express();
 
