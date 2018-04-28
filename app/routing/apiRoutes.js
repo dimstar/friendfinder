@@ -34,35 +34,32 @@ module.exports = class {
             allFriendsDataParse.unshift(request.body);
 
             let matchingFriend = allFriendsDataParse.map(this.calculateFriendMatch);
-            matchingFriend.sort(sortScores);
+            matchingFriend.sort(this.sortScores);
             
 
             // send data back to be handled
             response.end(JSON.stringify( matchingFriend, null, 2));
-
-            writeData()
           });
     }
 
     writeFriendData(newFriend, friendData){
         friendData.push(newFriend);
         let newRecords = JSON.stringify(friendData);
-        fs.appendFile( process.cwd() + '/app/data/friends.js', newRecords, (err) => {
+        fs.writeFile( process.cwd() + '/app/data/friends.js', newRecords, (err) => {
             if (err) throw err;
-            console.log(`Appended to file ${newRecords}`);
+            // console.log(`Writen to file to file ${newRecords}`);
         });
     }
 
-    addScores(accum, currentVal) {
-        return accum + parseInt(+currentVal);
-    }
+
 
     calculateFriendMatch( friend, index, shubang){
         console.log('friend', friend);
         console.log('index', index);
         console.log('shubang', 'naw');
-        if(index === 0) return; //skip the first friend as its you!
-        return +(friend.scores.reduce( addScores ) - shubang[0].scores.reduce( addScores ));
+        if(index === 0 || friend.scores === undefined) return; //skip the first friend as its you!
+        console.log('scores!', shubang[0]['scores[]']);
+        return +(friend.scores.reduce( (accum, currentVal) => accum + parseInt(+currentVal) ) - shubang[0]['scores[]'].reduce( (accum, currentVal) => accum + parseInt(+currentVal) ));
     }
 
     sortScores(a,b) {

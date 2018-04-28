@@ -3,7 +3,7 @@ $("#submitSurvey").on("click", function(event) {
     var newFriend = {
         name: $("#name").val().trim(),
         profile_img: $("#profile_img").val().trim(),
-        scores: [0]
+        scores: Array()
     };
 
     var sendFriend = function(newFriend){
@@ -18,7 +18,7 @@ $("#submitSurvey").on("click", function(event) {
     $('input[type="range"]').each(function(index){
         // var inputId = $(this).attr('id');
         var inputVal = $(this).val();
-        newFriend['scores'].push( Math.ceil( inputVal/20 ) );// get the value to 0 and 5, round up
+        newFriend.scores = newFriend.scores.unshift( Math.ceil( inputVal/20 ) );// get the value to 0 and 5, round up
         // we're done
         if(index === ($('input[type="range"]').length -1)){
             sendFriend(newFriend);
