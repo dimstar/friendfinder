@@ -2,3 +2,4 @@ homework_instructions.md
 *-seed.js
 ./sandbox
 ./sandbox/*
+.env
