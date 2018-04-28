@@ -7,12 +7,12 @@ module.exports = class {
         }
 
         // accept inbound from doc root
-        app.get('/', (res, req) => this.routing(res, req, this.routes));
+        app.get('/', (res, req) => this.templateRoute(res, req, this.routes));
         // accept request on survey
-        app.get('/survey', (res, req) => this.routing(res, req, this.routes));
+        app.get('/survey', (res, req) => this.templateRoute(res, req, this.routes));
     }
 
-    routing(request, response, routes){
+    templateRoute(request, response, routes){
         response.sendFile(routes[request.url]);
     }
 }

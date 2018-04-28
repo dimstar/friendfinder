@@ -1,11 +1,10 @@
 const express = require('express');
 const bparser = require('body-parser');
 const log = console.log;
-const Router = require('./app/routing/htmlRoutes.js');
+const TemplateRouter = require('./app/routing/htmlRoutes.js');
+const ApiRouter = require('./app/routing/apiRoutes.js');
 
 const app = express();
-
-router = new Router(app);
 
 // middleware start
 // parse application/x-www-form-urlencoded
@@ -14,6 +13,19 @@ app.use( bparser.urlencoded({ extended: false }) );
 app.use( bparser.json() );
 // @todo make public directory accessible..
 app.use( express.static('app/public/assets') );
+
+// middleware
+// app.use('/api/friends', function (req, res) {
+//     res.setHeader('Content-Type', 'text/plain');
+//     // add a jedi to firebase
+//     log(req.body);
+    
+//     // console.log(JSON.stringify(req.body, null, 2));
+//     res.end(JSON.stringify(req.body, null, 2));
+// });
+
+templaterouter = new TemplateRouter(app);
+apirouter = new ApiRouter(app);
 
 
 app.listen(1985, () => log('Example app listening on port 1985!'));
