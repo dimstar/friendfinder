@@ -1,0 +1,9 @@
+{
+    "name": "Friend Finder",
+    "description": "A small experiment in express and ajax",
+    "repository": "https://github.com/dimstar/friendfinder",
+    "logo": "https://www.vectorlogo.zone/logos/nodejs/nodejs-card.png",
+    "keywords": ["node", "express", "heroku"],
+    "image": "heroku/nodejs"
+  }
+  
