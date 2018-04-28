@@ -27,5 +27,7 @@ app.use( express.static('app/public/assets') );
 templaterouter = new TemplateRouter(app);
 apirouter = new ApiRouter(app);
 
-
-app.listen(1985, () => log('Example app listening on port 1985!'));
+// local
+// app.listen(1985, () => log('Example app listening on port 1985!'));
+// heroku
+app.listen(process.env.PORT, () => log('Example app listening on port 1985!'));
