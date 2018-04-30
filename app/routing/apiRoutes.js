@@ -19,8 +19,10 @@ module.exports = class {
     }
 
     apiFriendFinder(request, response){
+        // the json comes from the post as a string
+        let newFriendData = request.body;
         response.setHeader('Content-Type', 'text/plain');
-
+        console.log( newFriendData);
         fs.readFile(process.cwd() + '/app/data/friends.js', 'utf8', (err, allFriendsData) => {
             if (err) throw err;
             // console.log(allFriendsData);
@@ -28,10 +30,10 @@ module.exports = class {
             let allFriendsDataParse = JSON.parse(allFriendsData);
             
             // add the new submission to the noSql db
-            this.writeFriendData(request.body, allFriendsDataParse);
+            this.writeFriendData( newFriendData, allFriendsDataParse);
             // find the matching friend
             
-            allFriendsDataParse.unshift(request.body);
+            allFriendsDataParse.unshift( newFriendData);
 
             let matchingFriend = allFriendsDataParse.map(this.calculateFriendMatch);
             matchingFriend.sort(this.sortScores);

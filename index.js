@@ -3,7 +3,11 @@ const bparser = require('body-parser');
 const log = console.log;
 const TemplateRouter = require('./app/routing/htmlRoutes.js');
 const ApiRouter = require('./app/routing/apiRoutes.js');
-// process.env.PORT = 1985;
+
+// check if this is set, if not, set it!
+if(process.env.PORT === undefined){
+    process.env.PORT = 1985;
+}
 
 const app = express();
 
@@ -31,4 +35,4 @@ apirouter = new ApiRouter(app);
 // local
 // app.listen(1985, () => log('Example app listening on port 1985!'));
 // heroku
-app.listen(process.env.PORT, () => log('Example app listening on port 1985!'));
+app.listen( process.env.PORT, () => log(`Serves Up! On PORT: ${process.env.PORT}`));
