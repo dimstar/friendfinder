@@ -22,25 +22,29 @@ module.exports = class {
         // the json comes from the post as a string
         let newFriendData = request.body;
         response.setHeader('Content-Type', 'text/plain');
-        console.log( newFriendData);
+        // console.log( newFriendData);
         fs.readFile(process.cwd() + '/app/data/friends.js', 'utf8', (err, allFriendsData) => {
             if (err) throw err;
             // console.log(allFriendsData);
 
-            let allFriendsDataParse = JSON.parse(allFriendsData);
-            
-            // add the new submission to the noSql db
-            this.writeFriendData( newFriendData, allFriendsDataParse);
+            let friendSearchData = JSON.parse(allFriendsData);
+
             // find the matching friend
             
-            allFriendsDataParse.unshift( newFriendData);
+            friendSearchData.forEach( (friend, index, allFriends)=>{
+                let totalDifference = this.matrixCompare(friend.scores, newFriendData.scores);
+                friendSearchData[index].diff = totalDifference;
+                console.log('total diff: ', totalDifference);
+            });
 
-            let matchingFriend = allFriendsDataParse.map(this.calculateFriendMatch);
-            matchingFriend.sort(this.sortScores);
-            
-
+            let matchingFriend = friendSearchData.sort(this.sortFriends);
+        
+            console.log('everybody have fun!', friendSearchData);
             // send data back to be handled
-            response.end(JSON.stringify( matchingFriend, null, 2));
+            response.end(JSON.stringify( matchingFriend[0], null, 2));
+
+            // add the new submission to the noSql db
+            this.writeFriendData( newFriendData, friendSearchData);
           });
     }
 
@@ -53,19 +57,22 @@ module.exports = class {
         });
     }
 
-
-
-    calculateFriendMatch( friend, index, shubang){
-        console.log('friend', friend);
-        console.log('index', index);
-        console.log('shubang', 'naw');
-        if(index === 0 || friend.scores === undefined) return; //skip the first friend as its you!
-        console.log('scores!', shubang[0]['scores[]']);
-        return +(friend.scores.reduce( (accum, currentVal) => accum + parseInt(+currentVal) ) - shubang[0]['scores[]'].reduce( (accum, currentVal) => accum + parseInt(+currentVal) ));
+    matrixCompare(a, b){
+        let c = Array();
+        for(let i = 0; i < a.length; i++){
+             let diff = +a[i] - +b[i];
+             c[i] = Math.abs(diff);
+        }
+        console.log('c array', c);
+        return c.reduce(this.addArray);
     }
 
-    sortScores(a,b) {
-        return a - b;
+    addArray(a, b){
+        return +a + +b;
+    }
+
+    sortFriends(friendA, friendB){
+        return friendA.diff - friendB.diff;
     }
 
 }

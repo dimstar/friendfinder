@@ -19,9 +19,14 @@ $("#submitSurvey").on("click", function(event) {
             ,   type: 'POST'
             ,   contentType: 'application/json'
             ,   data: JSON.stringify(friendData) //stringify is important
-            ,   success: function(response){
-                alert(response);
-            }
+            }).done( function(response){
+                matchingFriend = JSON.parse(response);
+
+                $('#matching-name').text( matchingFriend.name);
+                $('#matching-image').attr({src: matchingFriend.profile_img});
+
+                $('#exampleModal').modal('show');
+                // alert(response);
             });
     }
 
@@ -32,12 +37,16 @@ $("#submitSurvey").on("click", function(event) {
         newFriend.scores.push( inputVal );// get the value to 0 and 5, round up
         // we're done
         if(index === ($('input[type="range"]').length -1)){
-            console.log(newFriend);
+            // console.log(newFriend);
             // you MUST stringify to send, otherwise body parser gets wonky
             sendFriend(newFriend);
         }
     });
 
+    // <li class="nav-item">
+    //       <a class="nav-link" data-toggle="modal" data-target="#exampleModal">
+    //         <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+    //     </li>
 
 
 });
